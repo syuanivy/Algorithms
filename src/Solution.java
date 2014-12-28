@@ -2,14 +2,173 @@
  * Created by ivy on 12/14/14.
  */
 
-import sun.reflect.generics.tree.Tree;
-
-import java.util.*;
 
 
 public class Solution {
 
     public static void main(String[] args){
+
+        //Test valid sudoku
+        char a = '.';
+        System.out.println(a);
+        char[][] board = new char[9][9];
+        for (int i = 0; i < 9; i++){
+            for (int j = 0; j < 9; j++){
+                board[i][j] = '.';
+            }
+        }
+        board[0][0] = '3';
+        board[0][3] = '3';
+        System.out.println(board[0][0]);
+        System.out.println(IntegerProbs.isValidSudoku(board));
+
+
+/*
+        //Test count and say
+        System.out.println(StringProbs.countAndSay(5));
+*/
+
+/*
+        //Test zigzag
+        String s = "PAYPALISHIRING";
+        System.out.println(StringProbs.zigzag(s, 3));
+*/
+
+
+/*      //Test longest prefix
+        String[] strs = new String[2];
+        strs[0] = "def";
+        strs[1] = "abcd";
+        System.out.println(StringProbs.longestCommonPrefix(strs));*/
+
+/*
+        //Test roman to int
+        System.out.println(IntegerProbs.romanToInt("MMMDCCCCXCIX"));
+*/
+
+/*
+        //Test integer is panlindrome
+        System.out.println(IntegerProbs.isPalindrome(-2147447412));
+*/
+
+/*        //Test atoi, string to integer
+
+        System.out.println(IntegerProbs.atoi("    010"));*/
+
+
+
+/*        //Test reverse integer
+        System.out.println(IntegerProbs.reverseClever(1534236469));
+        */
+
+/*
+        //Test valid palindrom
+        String s = "2a2";
+        System.out.println(StringProbs.isPalindromeRecur(s));
+*/
+
+
+/*        //Test majority element
+        int[] array = new int[1];
+        array[0] = 1;
+*//*        array[1] = 2;
+        array[2] = 2;
+        array[3] = 2;*//*
+        System.out.println(ArrayProbs.majorityElement(array));*/
+
+/*
+        //Test lengthOfLast
+        System.out.println(StringProbs.lengthOfLastWord("   "));
+*/
+
+ /*       //Test Excel Column Title converstion
+        System.out.println(DPandRecursion.convertToTitle(53));
+*/
+/*
+        //Test climbStairs
+        System.out.println(DPandRecursion.climbStairsDP(50));
+*/
+
+/*
+        //Test find need in haystack
+        String haystack = "stack";
+        String needle = "sdack";
+        System.out.println(StringProbs.strStr(haystack, needle));
+*/
+
+/*
+        //Test addBinary
+        String a = "111";
+        String b = "111";
+        System.out.println(IntegerProbs.addBinary(a,b));
+
+*/
+
+/*
+       //Test pascal I
+        TreeNode.getRow(2);
+
+*/
+
+
+        /*//Test valid parentheses
+        String s = "[(])";
+        System.out.println(StringProbs.isValid(s));
+        */
+/*
+        //Test compareVersion
+
+        String string1 = "1.0";
+        String string2 = "1.1";
+
+    //    String[] array = string1.split("\\.");
+        System.out.println(StringProbs.compareVersion(string1,string2));
+*/
+
+
+/*
+         //Test removeNthFromEnd
+            ListNode head = new ListNode(1);
+            head.next = new ListNode(2);
+            System.out.println(ListNode.removeNthFromEnd(head,1).val);
+
+*/
+
+
+/*
+         //Test merge
+            int[] A = new int[10];
+            int[] B = new int[3];
+            A[0] = -1;
+            A[1] = 0;
+            A[2] = 0;
+            A[3] = 3;
+            A[4] = 3;
+            A[5] = 3;
+            B[0] = 1;
+            B[1] = 2;
+            B[2] = 2;
+            ArrayProbs.merge(A, 6, B, 3);
+            System.out.println(A[0]+" "+A[1]+" "+A[2]+" "+A[3]+" "+A[4]+" "+A[5]+" " +A[6]+" "+A[7]+" "+A[8]+" "+A[9]);
+
+*/
+
+
+
+/*
+        //Test removeDuplicates from sorted array
+        int[] array = new int[2];
+        array[0] = 1;
+        array[1] = 1;
+       // array[2] = 1;
+        System.out.println(ArrayProbs.removeDuplicates(array));
+
+*/
+
+
+
+
+/*
         //Test LinkedList Intersection
         ListNode headA = new ListNode(1);
         headA.next = new ListNode(3);
@@ -22,6 +181,7 @@ public class Solution {
 
         headA.next.next.next = headB;
         System.out.println(ListNode.getIntersectionNode(headA,headB).val);
+*/
 
 /*
         //Test isSymmetric

@@ -10,7 +10,56 @@ public class TreeNode {
      TreeNode right;
      TreeNode(int x) { val = x; }
 
+     //pascal triangle ii, Given an index k, return the kth row of the Pascal's triangle.
+     public static List<Integer> getRow(int rowIndex) {
+          List<Integer> row = new ArrayList<Integer>();
+          if(rowIndex < 0) return row;
+          if(rowIndex == 0){
+               row.add(1);
+               return row;
+          }else{
+               List<Integer> previous = getRow(rowIndex-1);
+               row.add(1);
+               for(int i = 1 ; i< rowIndex; i++){
+                    row.add(previous.get(i - 1) + previous.get(i));
+               }
+               row.add(1);
+               return row;
+          }
+     }
 
+     //pascal triangle i
+     public static List<List<Integer>> generate(int numRows) {
+          List<List<Integer>> list = new ArrayList<List<Integer>>();
+          if(numRows < 1) return list;
+          if(numRows == 1) {
+               List<Integer> top = new ArrayList<Integer>();
+               top.add(1);
+               list.add(top);
+          }else{
+               list = generate(numRows-1);
+               List<Integer> bottom = list.get(numRows-2);
+               List<Integer> newBottom = new ArrayList<Integer>();
+
+               newBottom.add(1);
+               for(int i = 1 ; i< numRows-1; i++){
+                    newBottom.add(bottom.get(i-1)+bottom.get(i));
+               }
+               newBottom.add(1);
+               list.add(newBottom);
+          }
+          return list;
+
+     }
+
+
+     //path sum from root to leaf
+     public static boolean hasPathSum(TreeNode root, int sum) {
+          if(root == null) return false;
+          if(root. val == sum && root.left == null && root.right == null) return true;
+          if(hasPathSum(root.left, sum-root.val) || hasPathSum(root.right, sum-root.val)) return true;
+          return false;
+     }
 
      //Same Tree
      public static boolean isSameTree(TreeNode p, TreeNode q){
@@ -143,6 +192,7 @@ public class TreeNode {
           while(!stack.isEmpty()){
                list.add(stack.pop());
           }
+
           return list;
      }
 }
