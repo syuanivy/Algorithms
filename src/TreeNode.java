@@ -9,6 +9,73 @@ public class TreeNode {
      TreeNode left;
      TreeNode right;
      TreeNode(int x) { val = x; }
+     //preorder traversal, resursive solution is trivial?
+     public static List<Integer> preorderTraversalRec(TreeNode root) {
+          List<Integer> list =  new ArrayList<Integer>();
+          return preorder(list, root);
+     }
+     public static List<Integer> preorder(List<Integer> l, TreeNode root){
+          if(root == null) return l;
+          l.add(root.val);
+          if(root.left != null) preorder(l, root.left);
+          if(root.right != null) preorder(l, root.right);
+          return l;
+     }
+     //preorder traversal, iterative solution
+     public static List<Integer> preorderTraversal(TreeNode root) {
+          List<Integer> list =  new ArrayList<Integer>();
+          if(root == null) return list;
+
+          Stack<TreeNode> stack =  new Stack<TreeNode>();
+          stack.add(root);
+          list.add(root.val);
+          TreeNode current = root.left;
+
+          while(!stack.isEmpty() || current != null){
+               while(current != null){
+                    stack.add(current);
+                    list.add(current.val);
+                    current = current.left;
+               }
+               current =  stack.pop().right;
+
+          }
+          return list;
+     }
+     //inorder traversal recursive solution is trivial
+     public static List<Integer> inorderTraversalRec(TreeNode root) {
+          List<Integer> list = new ArrayList<Integer>();
+          if(root == null) return list;
+          else{
+               inorderHelper(list, root);
+               return list;
+          }
+     }
+     public static void inorderHelper(List<Integer> list, TreeNode root){
+          if(root.left != null) inorderHelper(list, root.left);
+          list.add(root.val);
+          if(root.right != null) inorderHelper(list, root.right);
+     }
+     //inorder traversal iterative solution
+     public List<Integer> inorderTraversal(TreeNode root) {
+          List<Integer> list = new ArrayList<Integer>();
+          if(root == null) return list;
+          Stack<TreeNode> stack = new Stack<TreeNode>();
+          stack.add(root);
+          TreeNode current = root.left;
+          while(!stack.isEmpty() || current != null) {
+               while (current != null) {
+                    stack.add(current);
+                    current = current.left;
+               }
+               TreeNode temp = stack.pop();
+               list.add(temp.val);
+               if(temp.right != null) current = temp.right;
+          }
+          return list;
+
+     }
+
 
      //pascal triangle ii, Given an index k, return the kth row of the Pascal's triangle.
      public static List<Integer> getRow(int rowIndex) {
@@ -194,5 +261,38 @@ public class TreeNode {
           }
 
           return list;
+     }
+     public TreeNode sortedListToBST(ListNode head) {
+          if(head == null) return null;
+          if (head.next == null) return new TreeNode(head.val);
+
+          int l = lengthOfList(head);
+          ListNode current = head;
+          for(int i=1; i< l/2; i++){
+               current = current.next;
+          }
+          ListNode rootNode = current.next;
+          current.next = null;
+          ListNode head2 = rootNode.next;
+          rootNode.next = null;
+
+          TreeNode root = new TreeNode(rootNode.val);
+          TreeNode leftsub = sortedListToBST(head);
+          TreeNode rightsub = sortedListToBST(head2);
+          root.left = leftsub;
+          root.right = rightsub;
+          return root;
+     }
+
+     public int lengthOfList(ListNode head){
+          int l = 0;
+          if(head == null) return l;
+
+          ListNode current = head;
+          while(current != null){
+               l++;
+               current = current.next;
+          }
+          return l;
      }
 }

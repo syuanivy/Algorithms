@@ -118,4 +118,46 @@ public class ArrayProbs {
         }
         return l;
     }
+    // allow twice duplicated elements 111233444 to 11 2 33 44 return new length 7
+
+    public static int removeDuplicatesAllowTwice(int[] A) {
+        int l = A.length;
+        int index = 0;
+        int check = index+1;
+
+        while(check<A.length){
+            int temp = A[index];
+            int count = 1;
+            while(check<A.length && A[check] == temp){
+                check++;
+                count++;
+                if (count > 2) l--;
+            }
+            if(check < A.length){
+                if(count >= 2) {
+                    A[index+1] = A[index];
+                    A[index+2] = A[check];
+                    index+=2;
+                }else{
+                    A[index+1] = A[check];
+                    index +=1;
+                }
+            }else if(count >= 2){
+                    A[index+1] = A[index];
+            }
+            check++;
+        }
+
+        for(int i= l; i<A.length; i++){
+            A[i]=0;
+        }
+        return l;
+
+    }
+    public static void printArray(int[] a){
+        int l = a.length;
+        for(int i = 0; i < l; i++){
+            System.out.println(a[i]);
+        }
+    }
 }

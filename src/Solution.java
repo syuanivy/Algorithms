@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * Created by ivy on 12/14/14.
  */
@@ -5,10 +7,67 @@
 
 
 public class Solution {
-
     public static void main(String[] args){
+            //test trailing zeros of n factorial
+        //    System.out.println(IntegerProbs.trailingZeroes(30));
+/*
+        String s = "wlrbbmqbhcdarzowkkyhiddqscdxrjmowfrxsjybldbefsarcbynecdyggxxpklorellnmpapqfwkhopkmco";
+            System.out.println(s.length());
+            System.out.println(StringProbs.lengthOfLongestSubstring(s));
+*/
 
-        //Test valid sudoku
+
+
+   /*    int[] a = new int[7];
+        a[0] = 1;
+        a[1] = 1;
+        a[2] = 1;
+        a[3] = 1;
+        a[4] = 2;
+        a[5] = 2;
+            a[6] = 3;
+
+        ArrayProbs.printArray(a);
+        System.out.println("New length: "+ ArrayProbs.removeDuplicatesAllowTwice(a));
+        ArrayProbs.printArray(a);
+*/
+/*
+        //insertion sort linked list
+        ListNode l1 = new ListNode(2);
+        l1.next = new ListNode(1);
+*/
+/*        l1.next.next = new ListNode(2);
+        l1.next.next.next = new ListNode(4);*//*
+
+        ListNode.printList(l1);
+        ListNode.printList(ListNode.partition(l1,2));
+
+*/
+
+
+
+
+        /*//sort linkedlist in constant space and nlgn, mergesort
+        ListNode l1 = new ListNode(4);
+        l1.next = new ListNode(2);
+      //  l1.next.next = new ListNode(1);
+        ListNode.sortList(l1);
+*/
+
+/*
+        //Test longest palindrome
+        String s = "abcba";
+        System.out.println(DPandRecursion.longestPalindromeDP(s));
+*/
+
+
+/*
+        //Test Palindrome partition, DFS recursion method
+        String s = "aabaa";
+        StringProbs.partition(s);
+*/
+
+/*        //Test valid sudoku
         char a = '.';
         System.out.println(a);
         char[][] board = new char[9][9];
@@ -20,7 +79,7 @@ public class Solution {
         board[0][0] = '3';
         board[0][3] = '3';
         System.out.println(board[0][0]);
-        System.out.println(IntegerProbs.isValidSudoku(board));
+        System.out.println(IntegerProbs.isValidSudoku(board));*/
 
 
 /*
@@ -83,7 +142,9 @@ public class Solution {
 
  /*       //Test Excel Column Title converstion
         System.out.println(DPandRecursion.convertToTitle(53));
+        System.out.println(DPandRecursion.titleToNumber("AA"));
 */
+
 /*
         //Test climbStairs
         System.out.println(DPandRecursion.climbStairsDP(50));
@@ -133,7 +194,18 @@ public class Solution {
             System.out.println(ListNode.removeNthFromEnd(head,1).val);
 
 */
+/*
+        //Test addTwoNumbers
+        ListNode l1 = new ListNode(2);
+        l1.next = new ListNode(8);
+        l1.next.next = new ListNode(2);
 
+        ListNode l2 = new ListNode(3);
+        l2.next  = new ListNode(4);
+        l2.next.next = new ListNode(1);
+        ListNode.addTwoNumbers(l1,l2);
+
+*/
 
 /*
          //Test merge
@@ -204,6 +276,21 @@ public class Solution {
         root.left.left = new TreeNode(4);
         root.right = new TreeNode(3);
         System.out.println(TreeNode.isBalanced(root));*/
+/*
+        //Test BSTIterator
+
+        TreeNode root = new TreeNode(1);
+//        root.left = new TreeNode(2);
+//        root.left.left = new TreeNode(4);
+        root.right = new TreeNode(2);
+            TreeNode N = null;
+        BSTIterator i = new BSTIterator(N);
+        System.out.println(i.hasNext());
+        System.out.println(i.next());
+        System.out.println(i.hasNext());
+        System.out.println(i.next());
+*/
+
 
 /*
         //Test MinStack
@@ -232,6 +319,17 @@ public class Solution {
         root.right = new TreeNode(2);
         List result = TreeNode.levelOrderBottom(root);
 */
+/*            //Test iterative preorder traversal
+            TreeNode root = new TreeNode(3);
+            root.right = new TreeNode(1);
+            root.right.left =  new TreeNode(2);
+            List result = TreeNode.preorderTraversal(root);*/
+
+            //Test generate Parenthesis
+
+            StringProbs.generateParenthesis(2);
+
+
     }
 
 }

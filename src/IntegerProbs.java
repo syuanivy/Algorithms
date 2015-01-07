@@ -7,6 +7,16 @@ import java.util.Set;
  * Created by ivy on 12/19/14.
  */
 public class IntegerProbs {
+    // factorial trailing zeros, the number of fives, twenty fives...n / 5 + n / 25 + n / 125 + n / 625 + n / 3125...;
+    public static int trailingZeroes(int n) {
+        int c = 0;
+        while (n >= 5) {
+            n /= 5;
+            c += n;
+        }
+        return c;
+    }
+
     //valid sudoku
     public static boolean isValidSudoku(char[][] board){
         Map<Character, Boolean> row = new HashMap<Character, Boolean>();
@@ -17,14 +27,14 @@ public class IntegerProbs {
             col.clear();
             row.clear();
             for (int j=0;j<9;j++){
-                if (board[i][j]!='.'){
+                if (board[i][j] != '.'){
                     if (col.containsKey(board[i][j])){
                         return false;
                     }else{
                         col.put(board[i][j], true);
                     }
                 }
-                if (board[j][i]!='.'){
+                if (board[j][i] != '.'){
                     if (row.containsKey(board[j][i])){
                         return false;
                     }else{
@@ -39,7 +49,7 @@ public class IntegerProbs {
                 block.clear();
                 for (int i=ii;i<ii+3;i++){
                     for (int j=jj;j<jj+3;j++){
-                        if (board[i][j]!='.'){
+                        if (board[i][j]!= '.') {
                             if (block.containsKey(board[i][j])){
                                 return false;
                             }else{

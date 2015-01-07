@@ -1,10 +1,89 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 
 /**
  * Created by ivy on 12/18/14.
  */
 public class StringProbs {
+
+
+    //DP, one dimensional O(n) solution.
+    //All possible substrings n+(n-1)+(n-2)+...+1 = O(n^2), checking by scanning all substrings leads to O(n^3) solution
+    //Below, one pass DP solution use hashmap, or array if string is simply ASCII (128, or 256 if extended)
+    public static int lengthOfLongestSubstring(String s) {
+        if(s == null || s.length() == 0 ) return 0;
+        int l = s.length();
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        int longest = 0;
+        int begin = 0;
+        int end = 0;
+        int current = 0;
+        while (end < l){
+            if(!map.containsKey(s.charAt(end)) || map.get(s.charAt(end)) < begin){
+                map.put(s.charAt(end), end);
+            }else if(map.get(s.charAt(end)) >= begin){
+                begin =  map.get(s.charAt(end))+1;
+                map.put(s.charAt(end), end);
+            }
+            end++;
+            current = end - begin;
+            if(current > longest) {
+                longest = current;
+            }
+        }
+
+        return longest;
+    }
+
+
+
+    //Palindrome Partitioning
+/*    Given a string s, partition s such that every substring of the partition is a palindrome.
+    Return all possible palindrome partitioning of s.
+    For example, given s = "aab",
+    Return [  ["aa","b"], ["a","a","b"]   ]
+ */
+    public static List<List<String>> partition(String s) {
+        List<List<String>> partitions = new ArrayList<List<String>>();
+        List<String> partition = new ArrayList<String>();
+        if(s == null || s.length() == 0) return null;
+        findPartitions(partitions, partition, s);
+        return partitions;
+    }
+    // helper method find palindrome partitions
+    public static void findPartitions(List<List<String>> partitions,
+                                             List<String> partition,
+                                             String s){
+        if(s.length() == 0) {
+            ArrayList<String> fullPartition = new ArrayList<String>();
+            for(String e:partition){
+                fullPartition.add(e);
+            }
+            partitions.add(fullPartition);
+        }
+
+        for(int i = 1; i <= s.length(); i++){
+            String str = s.substring(0, i);
+            String rest = s.substring(i);
+            if(isPalindr(str)){
+                partition.add(str);
+                findPartitions(partitions, partition, rest);
+                partition.remove(partition.size()-1);
+            }
+        }
+    }
+    // helper method, given a string, whether it is palindrome.
+    public static boolean isPalindr(String s){
+        if(s.length() == 0 || s.length() == 1 ) return true;
+        if(s.charAt(0) != (s.charAt(s.length()-1))) return false;
+        else return isPalindr(s.substring(1,s.length()-1));
+    }
+
+
+
+
     //count and say
     public static String countAndSay(int n) {
         if (n == 1) return "1";
@@ -159,6 +238,40 @@ public class StringProbs {
 
         if (stack.isEmpty()) return true;
         else return false;
+    }
+// generate all possible combinations of valid parentheses
+    public static List<String> generateParenthesis(int n) {
+        List<String> list = new ArrayList<String>();
+        if(n < 1) return list;
+        if(n == 1){
+            list.add("()");
+            return list;
+        }
+        StringBuffer growingString = new StringBuffer();
+        int left = 0;
+        int right = 0;
+        List<String> l = getParenthesisStrings(list, n, growingString, left, right );
+        return l;
+    }
+//helper method, comparable to DFS-visit
+    public static List<String> getParenthesisStrings(List<String> list, int n, StringBuffer s, int left, int right){
+        if (left > n || right > n) return list; // error
+        if (left == n && right == n) {
+            list.add(s.toString());
+        }
+
+        if(left < n) {
+            s.append("(");
+            getParenthesisStrings(list, n, s, left+1, right);
+            s.deleteCharAt(s.length()-1);
+        }
+        if(right < left){
+            s.append(")");
+            getParenthesisStrings(list, n , s, left, right+1 );
+            s.deleteCharAt(s.length()-1);
+        }
+
+        return list;
     }
 
     public static int lengthOfLastWord(String s) {
