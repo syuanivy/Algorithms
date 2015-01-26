@@ -12,6 +12,44 @@ import java.util.*;
          val = x;
          next = null;
      }
+ // 1-2-3 k = 2, return 2-3-1, k = 4, return 3-1-2
+    public static ListNode rotateRight(ListNode head, int n) {
+        if(n < 1 || head == null || head.next ==null) return head;
+
+        Stack<ListNode> stack = new Stack<ListNode>();
+        int l = 0;
+        ListNode current = head;
+        while(current != null){
+            stack.add(current);
+            l++;
+            current = current.next;
+        }
+
+        ListNode newHead;
+        if(n>l) n = n%l;
+
+        Stack<ListNode> stack1 = new Stack<ListNode>();
+        for(int i = 1; i<= n; i++){
+            stack1.add(stack.pop());
+        }
+
+        if(stack1.isEmpty()) return head;
+        if(!stack.isEmpty()) stack.peek().next = null;
+
+        newHead = stack1.pop();
+        current = newHead;
+        ListNode previous = newHead;
+        while(!stack1.isEmpty()){
+            current.next = stack1.pop();
+            previous = current;
+            current = current.next;
+        }
+        if(!stack.isEmpty()) current.next = head;
+
+
+        return newHead;
+
+    }
     // smaller values before pivot x, greater or equal values after
     //time limit exceeded
     public static ListNode partition(ListNode head, int x) {

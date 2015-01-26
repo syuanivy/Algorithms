@@ -7,6 +7,26 @@ import java.util.Set;
  * Created by ivy on 12/19/14.
  */
 public class IntegerProbs {
+
+
+  // Look for two numbers in an array that sum up to a target value, assuming a unique solution exists
+    public int[] twoSum(int[] numbers, int target) {
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int[] result = new int[2];
+        int i=0;
+        while(i<numbers.length){
+            if(map.containsKey(numbers[i])){
+                result[0] = map.get(numbers[i])+1;
+                result[1] = i+1;
+                return result;
+            }else{
+                map.put(target-numbers[i], i);
+                i++;
+            }
+        }
+
+        return result;
+    }
     // factorial trailing zeros, the number of fives, twenty fives...n / 5 + n / 25 + n / 125 + n / 625 + n / 3125...;
     public static int trailingZeroes(int n) {
         int c = 0;

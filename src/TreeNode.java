@@ -9,6 +9,203 @@ public class TreeNode {
      TreeNode left;
      TreeNode right;
      TreeNode(int x) { val = x; }
+
+/*     //all nodes % 3 = 1
+     public static void mod3remain1(TreeNode root, List<Pair> result, int c){
+          if(root == null)
+               return;
+          mod3remain1(root.left, result, c);
+          if(root.val % 3 == 1){
+               Pair ok = new Pair();
+               ok.val = root.val;
+               ok.index = c;
+               result.add(Pair);
+          }
+          c++;
+          mod3remain1(root.right, result, c);
+
+          return;
+     }*/
+// all possible solutions
+     //helper function struction: void helper(input, size of the problem, List, growing solution)
+     // base case,
+     // if (input == null) return;
+     // growing solution.add(current element);
+     //if(satisfied condition) list.add(copy of growing solution), return if no further searching, else continue
+     // helper (subproblem 1);
+     //helper (subproblem 2);
+     //... helper(all possible subproblems);
+     // growing solution. remove (current element ); back trace
+     //return
+     public static List<List<Integer>> pathSum(TreeNode root, int sum) {
+          List<List<Integer>> list = new ArrayList<List<Integer>>();
+          if (root == null) return list;
+
+          List<Integer> path = new ArrayList<Integer> ();
+
+          pathSumHelper(root, sum, list, path);
+
+          return list;
+     }
+
+
+
+     public static void pathSumHelper(TreeNode root, int sum,
+
+                                      List<List<Integer>> list,  List<Integer> path){
+          if(root == null) return;
+          path.add(root.val);
+          if(root.val == sum && root.left == null && root.right == null){
+               List<Integer> copy = saveCopy(path);
+               list.add(copy);
+          }
+          pathSumHelper(root.left, sum-root.val, list, path);
+          pathSumHelper(root.right, sum-root.val, list, path);
+          path.remove(path.size()-1);
+          return;
+     }
+
+     public static List<Integer> saveCopy(List<Integer> original){
+          List<Integer> copy = new ArrayList<Integer>();
+          for(int i: original){
+               copy.add(i);
+          }
+          return copy;
+     }
+     //find the path from root to node n in a binary tree, not a BST
+     public static boolean findPath(TreeNode root, TreeNode n, Stack<TreeNode> s){
+          if(root == null) return false;
+          s.push(root);
+          if(root == n) return true;
+          boolean left = findPath(root.left, n, s);
+          if(left) return left;
+          boolean right = findPath(root.right, n,s);
+          if(right) return right;
+          s.pop();
+          return false;
+     }
+
+
+
+// number of all valid BST trees consist of 1-n
+     public int numTrees(int n) {
+          HashMap<Range, Integer> map = new HashMap<Range,Integer>();
+
+          return numTreesHelper(1, n, map);
+     }
+
+
+     public int numTreesHelper(int low, int high, HashMap<Range, Integer> map){
+          Range range = new Range(low, high);
+          if(map.containsKey(range)) return map.get(range);
+          if (low > high) return 0;
+          if(low == high) return 1;
+
+          int sum = 0;
+          for(int i = low; i<=high; i++ ){
+               int leftNum = numTreesHelper(low, i-1, map);
+               int rightNum = numTreesHelper(i+1, high, map);
+               if(leftNum == 0) sum+= rightNum;
+               if(rightNum == 0) sum+= leftNum;
+               else sum+= leftNum*rightNum;
+          }
+
+          map.put(range, sum);
+          return sum;
+     }
+
+
+     class Range{
+          int low;
+          int high;
+          Range(int i, int j){
+               this.low = i;
+               this.high = j;
+          }
+     }
+
+
+     //valid bst
+     public static boolean isValidBST(TreeNode root) {
+          if(root == null) return true;
+          Wrapper wRoot = new Wrapper(root);
+          return isValidBST(wRoot).valid;
+
+
+     }
+     public static Wrapper isValidBST(Wrapper wRoot){
+          //base case
+          if(wRoot.root.left == null && wRoot.root.right == null) {
+               wRoot.valid = true;
+               return wRoot;
+          }
+          //recursion
+
+          if(wRoot.root.left != null && wRoot.root.right != null){
+               Wrapper wLeft = isValidBST(new Wrapper(wRoot.root.left));
+               Wrapper wRight = isValidBST(new Wrapper(wRoot.root.right));
+               if(wLeft.valid && wRight.valid && wLeft.max < wRoot.root.val && wRight.min > wRoot.root.val){
+                    wRoot.valid = true;
+                    wRoot.min = wLeft.min;
+                    wRoot.max = wRight.max;
+               }else {
+                    wRoot.valid = false;
+               }
+          }else if(wRoot.root.left != null && wRoot.root.right == null){
+               Wrapper wLeft = isValidBST(new Wrapper(wRoot.root.left));
+               if(wLeft.valid &&  wLeft.max < wRoot.root.val){
+                    wRoot.valid = true;
+                    wRoot.min = wLeft.min;
+               }else {
+                    wRoot.valid = false;
+               }
+          }else{
+               Wrapper wRight = isValidBST(new Wrapper(wRoot.root.right));
+               if(wRight.valid &&  wRight.min > wRoot.root.val){
+                    wRoot.valid = true;
+                    wRoot.max= wRight.max;
+               }else {
+                    wRoot.valid = false;
+               }
+          }
+
+
+          return wRoot;
+
+     }
+
+     public static class Wrapper{
+          TreeNode root;
+          boolean valid;
+          int min;
+          int max;
+
+          Wrapper (TreeNode root){
+               this.root = root;
+               valid = false;
+               min = root.val;
+               max = root.val;
+          }
+     }
+// flatten BT to a right leaning linkedlist
+     public static  void flatten(TreeNode root) {
+          if(root == null) return;
+          if(root.left == null && root.right == null) return;
+
+          TreeNode left = root.left;
+          TreeNode right = root.right;
+
+          root.left = null;
+          flatten(left);
+          root.right = left;
+          flatten(right);
+          TreeNode n = root;
+          while(n.right!=null){
+               n = n.right;
+          }
+          n.right = right;
+          return;
+     }
      //preorder traversal, resursive solution is trivial?
      public static List<Integer> preorderTraversalRec(TreeNode root) {
           List<Integer> list =  new ArrayList<Integer>();
@@ -295,4 +492,72 @@ public class TreeNode {
           }
           return l;
      }
+
+     public static TreeNode sortedArrayToBST(int[] num){
+
+          return buildBSTHelper(num, 0, num.length-1);
+     }
+
+     public static TreeNode buildBSTHelper(int[] num, int low, int high){
+          int l = high-low+1;
+          //base case
+          if(l<1) return null;
+          if(l==1) return new TreeNode(num[low]);
+          //recursive case
+
+          TreeNode root = new TreeNode(num[low+l/2]);
+          TreeNode left = buildBSTHelper(num, low, low+l/2-1);
+          TreeNode right = buildBSTHelper(num, low+l/2+1, high);
+          root.left = left;
+          root.right = right;
+          return root;
+     }
+
+     //build BT from inorder and postorder
+     public static TreeNode buildTree(int[] inorder, int[] postorder) {
+          if(inorder.length == 0 || postorder.length == 0) return null;
+          return buildTreeHelper(inorder, postorder,0, inorder.length-1, 0, postorder.length-1);
+     }
+
+     public static TreeNode buildTreeHelper(int[] inorder, int[] postorder, int ibegin, int iend, int pbegin, int pend){
+          if(ibegin > iend || pbegin > pend) return null;
+          if(ibegin == iend) return new TreeNode(inorder[ibegin]);
+          TreeNode root = new TreeNode(postorder[pend]);
+          int i = 0;
+          while(inorder[ibegin+i] != root.val){
+               i++;
+          }
+          if (i > 0) root.left = buildTreeHelper(inorder, postorder, ibegin, ibegin+i-1,pbegin, pbegin+i-1);
+          if(ibegin+i+1 < inorder.length) root.right = buildTreeHelper(inorder, postorder, ibegin+i+1, iend, pbegin+i, pend-1);
+
+          return root;
+
+     }
+
+     public static TreeNode buildTreePreInOrder(int[] preorder, int[] inorder) {
+          if(preorder.length == 0 || inorder.length == 0) return null;
+          else return buildTreeHelperPreInOrder(preorder, inorder, 0, inorder.length-1, 0, inorder.length - 1);
+     }
+
+     public static TreeNode buildTreeHelperPreInOrder(int[] preorder, int[] inorder, int p1, int p2, int i1, int i2) {
+          if (p1 > p2 || i1 > i2) return null;
+          if(p1 == p2 && i1 == i2) return new TreeNode(preorder[p1]);
+
+          TreeNode root = new TreeNode(preorder[p1]);
+
+          int i = 0;
+          while(inorder[i1+i] != root.val){
+               i++;
+          }
+
+          if(i>0) root.left = buildTreeHelperPreInOrder(preorder, inorder, p1+1, p1+i, i1, i1+i-1);
+          if(p1+i+1 < preorder.length)root.right = buildTreeHelperPreInOrder(preorder, inorder, p1+i+1, p2, i1+i+1, i2);
+
+          return root;
+
+     }
+
+
+
+
 }

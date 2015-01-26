@@ -1,13 +1,35 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by ivy on 12/18/14.
  */
 public class StringProbs {
+     //combine an array of integers in the order such that the string forms the largest integer, return string
+     class StringComparator implements Comparator<String> {
+         public int compare(String s1, String s2){
+             String s1s2 = s1+s2;
+             String s2s1 = s2+s1;
+             if(s1s2.compareTo(s2s1)>0) return -1;
+             else if(s1s2.compareTo(s2s1)<0) return 1;
+             else if(s1.length()<=s2.length()) return -1;
+             else  return 1;
+         }
+     }
 
+    public String largestNumber(int[] num){
+        String[] nums = new String[num.length];
+        for(int i =0 ;i<num.length;i++){
+            nums[i]=String.valueOf(num[i]);
+        }
+        Comparator<String> comparator = new StringComparator();
+        Arrays.sort(nums,comparator); // sort nums according to the comparator
+
+        StringBuilder str = new StringBuilder();
+        for(String n:nums){
+            str.append(n);
+        }
+        return str.charAt(0)=='0'?"0":str.toString();
+    }
 
     //DP, one dimensional O(n) solution.
     //All possible substrings n+(n-1)+(n-2)+...+1 = O(n^2), checking by scanning all substrings leads to O(n^3) solution
@@ -270,6 +292,7 @@ public class StringProbs {
             getParenthesisStrings(list, n , s, left, right+1 );
             s.deleteCharAt(s.length()-1);
         }
+
 
         return list;
     }

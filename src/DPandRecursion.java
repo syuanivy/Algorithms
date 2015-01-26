@@ -1,9 +1,11 @@
-
+import java.util.List;
 
 /**
  * Created by ivy on 12/22/14.
  */
 public class DPandRecursion {
+    //steps 1,2 3, find all possible ways of going up n stairs
+
 
     // fast and easy longest palindrome, grow from central character
     public static String longestPalindrome(String s) {

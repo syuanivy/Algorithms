@@ -5,6 +5,49 @@ import java.util.HashMap;
  * Created by ivy on 12/16/14.
  */
 public class ArrayProbs {
+    //gas station, circular cost, n^2 solution
+    public static int canCompleteCircuit(int[] gas, int[] cost) {
+        int[] diff = new int[gas.length];
+        diff[0]+=gas[0]-=cost[0];
+        int start = 0;
+        int left = diff[0];
+        for(int i = 1; i< gas.length; i++){
+            if(left<0){
+                start = i;
+                left=0;
+            }
+            diff[i] =gas[i]-cost[i];
+            left+=diff[i];
+        }
+        if(left < 0)
+            return-1;
+        left = 0;
+        for(int i = 0; i< gas.length; i++){
+            int k = start+i<gas.length? start+i : (start+i)%gas.length;
+            left += diff[k];
+            if(left < 0)
+                return -1;
+        }
+        return start;
+    }
+    //maximal product of subarray
+    public static  int maxProduct(int[] A){
+        //linear solution
+        //idea: maxProduct can be obtained by both max * positive and min * negative, or A[i]
+        // scan from the beginning, maintain max/min and result
+        //compare max*=A[i], min*=A[i] and A[i], update max and min, and result
+        int max = A[0];
+        int min = A[0];
+        int result = A[0];
+        for(int i = 1; i< A.length; i++){
+            int temp = max;
+            max = Math.max(Math.max(temp*A[i], min*A[i]), A[i]);
+            min = Math.min(Math.min(temp*A[i], min*A[i]), A[i]);
+            if(max>result)
+                result = max;
+        }
+        return result;
+    }
     //majority element more than floor n/2
     public static int majorityElement(int[] num) {
         HashMap counts = new HashMap();
