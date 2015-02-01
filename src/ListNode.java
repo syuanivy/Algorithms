@@ -443,7 +443,7 @@ import java.util.*;
         }
         return head;
     }
-
+    //recursive , two passes
     public static ListNode removeNthFromEnd(ListNode head, int n) {
         int c=0;
         ListNode current =head;
@@ -465,6 +465,34 @@ import java.util.*;
 
         return head;
 
+    }
+    //One pass method to removeNth, using fast and slow pointers
+    public static ListNode removeNthFromEndOnePass(ListNode head, int n) {
+        //6->5->4->3->2->1
+        //if want to remove n=3, need to have a pointer p at n=4, and p.next=p.next.next
+        //separate two pointers n nodes apart, and then move them together
+        //when the faster pointer is at the end, the slower is at the prev of toBeRemoved
+        ListNode fast = head;
+        ListNode slow = head;
+        int c = 0;
+        while(c<n && fast != null){
+            fast = fast.next;
+            c++;
+        }
+        if(fast == null){
+            if(c==n)
+                return head.next;
+            else
+                return null;
+        }
+        while(fast.next != null){
+            fast = fast.next;
+            slow = slow.next;
+        }
+        ListNode toRemove = slow.next;
+        slow.next = toRemove.next;
+        toRemove.next=null;
+        return head;
     }
 
     public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {

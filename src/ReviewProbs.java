@@ -123,6 +123,24 @@ public class ReviewProbs {
         if(n.val<=root.val) return inBST(root.left, n);
         else return inBST(root.right, n);
     }
+    public static List<TreeNode> findPathBST(TreeNode root, TreeNode n){
+        List<TreeNode> path = new ArrayList<TreeNode>();
+        findPathBSTHelper(root, n, path);
+        return path;
+    }
+    public static void findPathBSTHelper(TreeNode root, TreeNode n, List<TreeNode> path){
+        if (root ==null) {
+            path.clear();
+            return;
+        }
+        path.add(root);
+        if(root == n) return;
+        if(n.val<=root.val)
+            findPathBSTHelper(root.left, n, path);
+        else
+            findPathBSTHelper(root.right, n, path);
+        return;
+    }
 
 
     //Common Ancestor of binary tree, return parent of root if one of a b is the root
@@ -860,6 +878,50 @@ public class ReviewProbs {
             candidates.add(i,v);
         }
         return;
+    }
+
+    //3Sum, better solution
+
+    public static List<List<Integer>> threeSumSortSolution(int[] num) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+
+        if (num == null || num.length<3)
+            return result;
+
+        // Sort
+        Arrays.sort(num);
+
+        for (int i=0; i<num.length-2; i++) {
+            int l = i+1;
+            int r = num.length-1;
+            while(l<r){
+                int sum = num[i]+num[l]+num[r];
+                if(sum==0){
+                    List<Integer> solution = new ArrayList<Integer>();
+                    solution.add(num[i]);
+                    solution.add(num[l]);
+                    solution.add(num[r]);
+                    result.add(solution);
+                    while(l+1< num.length && num[l+1] == num[l]){
+                        l++;
+                    }
+                    l++; // find the next different element
+                    while(r-1>0 && num[r-1] == num[r] ){
+                        r--;
+                    }
+                    r--;//find the previous different element
+                }else if(sum < 0){
+                    l++;
+                }else{
+                    r--;
+                }
+            }
+            while(i+1<num.length && num[i+1] == num[i]){ // skipping the same first element
+                i++;
+            }
+        }
+
+        return result;
     }
     public List<List<Integer>> threeSum(int[] num) {
         Arrays.sort(num);

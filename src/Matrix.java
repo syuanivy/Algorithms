@@ -4,12 +4,16 @@ public class Matrix {
     //EA coding test
     //DP solution
     public static void findLargestSumPath(int[][] M){
-        if(M[0][0] < 0 || M[M.length-1][M.length-1] < 0) {
+        if(M == null){
+            System.out.println("Invalid matrix input!");
+            return;
+        }
+        if(M[0][0] < 0 || M[M.length-1][M[0].length-1] < 0) {
             System.out.println("Invalid starting or end point!");
             return;
         }
         int[][] sumTable = largestSum(M);
-        int largestSum = sumTable[M.length-1][M.length-1];
+        int largestSum = sumTable[M.length-1][M[0].length-1];
 
         if(largestSum == Integer.MIN_VALUE){
             System.out.println("No valid path found!");
@@ -21,11 +25,12 @@ public class Matrix {
     }
 
     public static int[][] largestSum(int[][] M){
-        int n = M.length;
-        int[][] S = new int[n][n];
+        int m = M.length;
+        int n = M[0].length;
+        int[][] S = new int[m][n];
         //initialize S[0][i] and S[j][0];
         S[0][0] = M[0][0] + adjSum(M,0,0);
-        for (int i = 1; i< n; i++){
+        for (int i = 1; i< m; i++){
             if(hasPathTo(S,M, i,0)) S[i][0] = S[i-1][0] + M[i][0]+adjSum(M,i,0);
             else S[i][0] = Integer.MIN_VALUE;
         }
@@ -34,7 +39,7 @@ public class Matrix {
             else S[0][j] = Integer.MIN_VALUE;
         }
         //fill the table bottom up
-        for (int i = 1; i< n; i++){
+        for (int i = 1; i< m; i++){
             for(int j = 1; j< n; j++){
                 if(hasPathTo(S,M,i,j)){
                     S[i][j] = Math.max(S[i-1][j], S[i][j-1]) + M[i][j] + adjSum(M,i,j);
@@ -52,7 +57,7 @@ public class Matrix {
         if(i-1 >= 0) adjs[0] = M[i-1][j];
         if(i+1 < M.length) adjs[1] = M[i+1][j];
         if(j-1 >=0) adjs[2] = M[i][j-1];
-        if(j+1 < M.length) adjs[3] = M[i][j+1];
+        if(j+1 < M[0].length) adjs[3] = M[i][j+1];
         int negSum = 0;
         for (int k = 0; k< 4; k++){
             if(adjs[k] < 0){
@@ -74,7 +79,7 @@ public class Matrix {
     public static void printPath(int[][] M, int[][] S){
         Stack<Integer> reversed = new Stack<Integer>();
         int i = M.length-1;
-        int j = M.length-1;
+        int j = M[0].length-1;
         while(i > 0 || j > 0){
             reversed.push(M[i][j]);
             if(i == 0) j--;
