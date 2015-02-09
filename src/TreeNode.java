@@ -557,7 +557,24 @@ public class TreeNode {
 
      }
 
-
-
+     public static void printTreeLevelOrder(TreeNode root){
+          Queue<TreeNode> q = new LinkedList<TreeNode>();
+          q.add(root);
+          while(!q.isEmpty()){
+               TreeNode cur = q.remove();
+               printNode(cur);
+               if(cur != null && (cur.left != null || cur.right != null)){
+                    q.add(cur.left);
+                    q.add(cur.right);
+               }
+          }
+          System.out.println();
+     }
+     public static void printNode(TreeNode n){
+          if(n == null)
+               System.out.print("#");
+          else
+               System.out.print(n.val);
+     }
 
 }

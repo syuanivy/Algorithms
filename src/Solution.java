@@ -13,8 +13,31 @@ import java.util.Scanner;
 
 public class Solution {
     public static void main(String[] args){
-        int[] S = {1,1,1,0};
-        System.out.println(AllPossibility.threeSumClosest(S, 100));
+
+         char[][] board = new char[3][3];
+            for(int i = 0; i<3; i++){
+                for(int j = 0; j<3;j++){
+                    board[i][j] = 'O';
+                }
+            }
+/*        board[0][0] = 'O';
+        board[0][3] = 'O';
+        board[1][1] = 'O';
+        board[1][2] = 'O';
+        board[1][4] = 'O';
+        board[2][1] = 'O';
+        board[2][3] = 'O';
+        board[3][0] = 'O';
+        board[3][2] = 'O';
+        board[3][3] = 'O';
+        board[3][4] = 'O';
+        board[4][2] = 'O';
+        board[4][4] = 'O';*/
+        printMatrix(board);
+
+        Matrix.solve(board);
+        System.out.println("-------------");
+        printMatrix(board);
 
 
     }
@@ -74,10 +97,15 @@ public class Solution {
             String firstline = kb.readLine();
             String secondline = kb.readLine();
             int[] A = parseInput(firstline, secondline);
+            for(int i: A){
+                System.out.println(i);
+            }
 
         }catch(IOException e){
 
         }
+        return;
+
     }
     //parse input string if necessary
     public static int[] parseInput(String firstline, String secondline){
@@ -89,6 +117,16 @@ public class Solution {
             num[i] = Integer.parseInt(splits[i]);
         }
         return num;
+    }
+
+    public static void printMatrix(char[][] M){
+        for(char[] chars: M){
+            for(char c: chars){
+                System.out.print(c);System.out.print("  ");
+            }
+            System.out.println('\n');
+        }
+
     }
 
 }

@@ -7,6 +7,91 @@ import java.util.Stack;
  * Created by ivy on 2/1/15.
  */
 public class AllPossibility {
+    //Unique BST from 1 to n
+    public static List<TreeNode> generateTrees(int n) {
+        List<TreeNode> result = new ArrayList<TreeNode>();
+        if(n<1){
+            result.add(null);
+            return result;
+        }
+        List<TreeNode> solution = new ArrayList<TreeNode>();
+        TreeNode zero = new TreeNode(0);
+        helperGenerateTrees(result, solution, 1, n, zero, n);
+        return result;
+    }
+
+    public static void helperGenerateTrees(List<TreeNode> result, List<TreeNode> solution, int low, int high, TreeNode root, int n){
+        if(solution.size()== n) {
+            TreeNode complete= copyTree(solution.get(0));
+            result.add(complete);
+            return;
+        }
+
+        if(low>high)
+            return;
+
+
+        for(int i = low; i<=high; i++){
+            TreeNode childroot = new TreeNode(i);
+            connectChild(root,childroot);
+            solution.add(childroot);
+            helperGenerateTrees(result,solution,low,i-1,childroot, n);
+            if(solution.size()<n){
+                helperGenerateTrees(result, solution,i+1,high, childroot,n);
+            }
+            solution.remove(solution.size()-1);
+        }
+        return;
+    }
+
+    public static void connectChild(TreeNode root, TreeNode child){
+        if(child.val<=root.val)
+            root.left = child;
+        else
+            root.right = child;
+    }
+
+    public static TreeNode copyTree(TreeNode root){
+        if(root == null)
+            return null;
+        TreeNode newRoot =  new TreeNode(root.val);
+        newRoot.left = copyTree(root.left);
+        newRoot.right = copyTree(root.right);
+        return newRoot;
+    }
+    public List<TreeNode> generateTreesRec(int n) {
+        return generateTreesHelp(1, n);
+    }
+    public List<TreeNode> generateTreesHelp(int start, int end) {
+        ArrayList<TreeNode> ret = new ArrayList<TreeNode>();
+
+
+        if (start > end) {
+            ret.add(null);
+            return ret;
+        }
+
+        for (int i = start; i <= end; i++) {
+
+            List<TreeNode> left = generateTreesHelp(start, i - 1);
+            List<TreeNode> right =  generateTreesHelp(i + 1, end);
+
+
+            for (TreeNode l: left) {
+                for(TreeNode r: right) {
+
+                    TreeNode root = new TreeNode(i);
+                    root.left = l;
+                    root.right = r;
+
+
+                    ret.add(root);
+                }
+            }
+        }
+
+        return ret;
+    }
     //3Sum Closest
     //Brutal force DFS, find all threeSum and updating return value, O(n^3) solution
     public static int threeSumClosest(int[] num, int target) {

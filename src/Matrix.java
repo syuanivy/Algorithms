@@ -1,6 +1,96 @@
+import jdk.internal.util.xml.impl.Pair;
+
+import java.util.ArrayDeque;
 import java.util.Stack;
 
 public class Matrix {
+    //capture enclosed O
+    public static void solve(char[][] board) {
+        if(board == null || board.length ==0)
+            return;
+        int rows = board.length;
+        int cols = board[0].length;
+        //create a table of booleans recording whether the element has been visited;
+        boolean[][] visited = new boolean[rows][cols];
+
+        //check the boundary of O, and go inside if it has O neighbors inside the board;
+        for(int i = 0; i< rows; i++){
+            if(board[i][0] == 'X' && board[i][cols-1]=='X')
+                continue;
+            else{
+                if(board[i][0] == 'O' && visited[i][0] == false)
+                    visitInsideOStack(board, visited, i, 0);
+                if(board[i][cols-1]=='O' && visited[i][cols-1] == false)
+                    visitInsideOStack(board, visited, i, cols-1);
+            }
+        }
+
+        for(int j = 1; j< cols-1; j++){
+            if(board[0][j] == 'X' && board[rows-1][j]=='X')
+                continue;
+            else{
+                if(board[0][j] == 'O' && visited[0][j] == false )
+                    visitInsideOStack(board,visited,  0, j);
+                if(board[rows-1][j]=='O' && visited[rows-1][j] == false)
+                    visitInsideOStack(board,visited,  rows-1, j);
+            }
+        }
+        //scan the inside of the board, for Os that are marked false, change it to X;
+
+        for (int i= 1; i<rows-1;i++){
+            for(int j = 1; j<cols-1; j++){
+                if(board[i][j] == 'O' && visited[i][j] == false)
+                    board[i][j] = 'X';
+            }
+        }
+    }
+
+    public static void visitInsideO(char[][] board, boolean[][] visited, int i, int j){
+        if(i<0 || i>board.length-1 || j<0 || j>board[0].length-1)
+            return;
+        if(board[i][j] == 'X'|| visited[i][j] == true)
+            return;
+
+
+        if(board[i][j]=='O')
+            visited[i][j] = true;
+
+        visitInsideO(board, visited, i+1, j);
+        visitInsideO(board, visited, i-1, j);
+        visitInsideO(board, visited, i, j+1);
+        visitInsideO(board, visited, i, j-1);
+    }
+
+    public static void visitInsideOStack(char[][] board, boolean[][] visited, int i, int j){
+        Stack<int[]> stack = new Stack<int[]>();
+        int[] unvisitedO = new int[2]; unvisitedO[0] = i; unvisitedO[1] = j;
+        stack.push(unvisitedO);
+
+        while(!stack.isEmpty()){
+            int[] visitedO = stack.pop();
+            visited[visitedO[0]][visitedO[1]]= true;
+            if(visitedO[0] == 3 && visitedO[1] == 3)
+                System.out.println("problem coming");
+            if(visitedO[0]-1 >=0 && board[visitedO[0]-1][visitedO[1]] == 'O' && visited[visitedO[0]-1][j] == false) {
+                int[]newO = new int[2]; newO[0] = visitedO[0]-1; newO[1] = visitedO[1];
+                stack.push(newO);
+            }
+            if(visitedO[0]+1 <board.length && board[visitedO[0]+1][visitedO[1]] == 'O' && visited[visitedO[0]+1][j] == false) {
+                int[]newO = new int[2]; newO[0] = visitedO[0]+1; newO[1] = visitedO[1];
+                stack.push(newO);
+            }
+            if(visitedO[1]+1 <board.length && board[visitedO[0]][visitedO[1]+1] == 'O' && visited[i][visitedO[1]+1] == false) {
+                int[]newO = new int[2]; newO[0] = visitedO[0]; newO[1] = visitedO[1]+1;
+                stack.push(newO);
+            }
+            if(visitedO[1]-1>=0 && board[visitedO[0]][visitedO[1]-1] == 'O' && visited[i][visitedO[1]-1] == false) {
+                int[]newO = new int[2]; newO[0] = visitedO[0]; newO[1] = visitedO[1]-1;
+                stack.push(newO);
+            }
+        }
+    }
+
+
     //EA coding test
     //DP solution
     public static void findLargestSumPath(int[][] M){
