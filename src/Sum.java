@@ -7,6 +7,7 @@ import java.util.List;
  * Created by ivy on 2/7/15.
  */
 public class Sum {
+
     // Look for two numbers in an array that sum up to a target value, assuming a unique solution exists
     public int[] twoSum(int[] numbers, int target) {
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -25,6 +26,88 @@ public class Sum {
 
         return result;
     }
+
+    //two sum, nlgn but in space
+    public int[] twoSumSort(int[] numbers, int target){
+        Arrays.sort(numbers);
+        int[] result = new int[2];
+        int l = 0;
+        int r = numbers.length-1;
+        while(l<r){
+            int tempSum = numbers[l] + numbers[r];
+            if(tempSum <  target){
+                l++;
+            }else if(tempSum > target){
+                r--;
+            }else{
+                result[0] = numbers[l];
+                result[1] = numbers[r];
+                return result;
+            }
+        }
+
+        return result;
+    }
+
+    //Number of pairs of 2Sum or K-complimentary number pairs
+    // this solution has nlgn time complexity, but constant space
+    public static int pairsOf2Sum(int K, int[] A){
+        Arrays.sort(A); //nlgn, numbers sort in ascending order
+        int i = 0;
+        int j = A.length-1;
+        int pairs = 0;
+        while(i<=j){
+            int front = 1; // number of repeating element from the front
+            int end = 1;   // number of repeating element from the end
+
+            if(A[i]+A[j] < K){ // increase first element to achieve K
+                i++;
+            }else if(A[i] +A[j] > K){ // decrease second element to achieve K
+                j--;
+            }else{   // when sums to K
+                if(A[i] == A[j]){  // reaches the center of the array, values are all equal from i to j
+                    int c = j-i+1;  // number of repeating center element
+                    pairs+= c + c*(c-1);  // selfpairs + combination of any two (order matters, other wise divided by 2)
+                    return pairs; // no further counting needed
+                }else{  // A[i] != A[j], can still move further toward each other
+                    while(A[i+1] == A[i] && i <= j){
+                        front++;  // count repeating front element
+                        i++;
+                    }
+                    i++; //when exit, i is still at the last repeating element, so increment again to the first non-repeating element
+                    while(A[j-1] == A[j] && i<= j){
+                        end++;
+                        j--;  //count repeating end element
+                    }
+                    j--; //when exit, i is still at the last repeating element, so decrement again to the first non-repeating element
+                    pairs+= front*end*2; // order matters( otherwise just front * end)
+                }
+            }
+        }
+        return pairs;
+    }
+    //This solution takes linear space, but also linear time, taking advantage of a hash map
+    public static int pairsOf2SumHash(int K,int[] A)
+    {
+        HashMap<Integer, Integer> h = new HashMap<Integer, Integer>();
+        // first pass
+        for(int i=0; i<A.length; i++){
+            if( !h.containsKey(A[i]) )
+                h.put(A[i], 1);
+            else
+                h.put(A[i], h.get(A[i])+1);
+        }
+
+        // second pass
+        int c = 0;
+        for(int i=0; i<A.length; i++){
+            int comp = K - A[i]; //diff, or complimentary
+            if( h.containsKey( comp ))
+                c += h.get(comp); // order matters only: (1,3) and (3,1) both count
+        }
+        return c;
+    }
+
     //3Sum, sort first, i scan from 0 through length-2, skip same values
     // l= i+1, r = length-1, while (l<r) look for sum[i]+sum[l]+sum[r] == target value, skip same values from both ends
     public static List<List<Integer>> threeSumSortSolution(int[] num) {

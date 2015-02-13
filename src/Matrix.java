@@ -65,27 +65,30 @@ public class Matrix {
         Stack<int[]> stack = new Stack<int[]>();
         int[] unvisitedO = new int[2]; unvisitedO[0] = i; unvisitedO[1] = j;
         stack.push(unvisitedO);
+        visited[unvisitedO[0]][unvisitedO[1]] = true;
 
         while(!stack.isEmpty()){
             int[] visitedO = stack.pop();
-            visited[visitedO[0]][visitedO[1]]= true;
-            if(visitedO[0] == 3 && visitedO[1] == 3)
-                System.out.println("problem coming");
+
             if(visitedO[0]-1 >=0 && board[visitedO[0]-1][visitedO[1]] == 'O' && visited[visitedO[0]-1][j] == false) {
                 int[]newO = new int[2]; newO[0] = visitedO[0]-1; newO[1] = visitedO[1];
                 stack.push(newO);
+                visited[newO[0]][newO[1]] = true;
             }
             if(visitedO[0]+1 <board.length && board[visitedO[0]+1][visitedO[1]] == 'O' && visited[visitedO[0]+1][j] == false) {
                 int[]newO = new int[2]; newO[0] = visitedO[0]+1; newO[1] = visitedO[1];
                 stack.push(newO);
+                visited[newO[0]][newO[1]] = true;
             }
-            if(visitedO[1]+1 <board.length && board[visitedO[0]][visitedO[1]+1] == 'O' && visited[i][visitedO[1]+1] == false) {
+            if(visitedO[1]+1 <board[0].length && board[visitedO[0]][visitedO[1]+1] == 'O' && visited[i][visitedO[1]+1] == false) {
                 int[]newO = new int[2]; newO[0] = visitedO[0]; newO[1] = visitedO[1]+1;
                 stack.push(newO);
+                visited[newO[0]][newO[1]] = true;
             }
             if(visitedO[1]-1>=0 && board[visitedO[0]][visitedO[1]-1] == 'O' && visited[i][visitedO[1]-1] == false) {
                 int[]newO = new int[2]; newO[0] = visitedO[0]; newO[1] = visitedO[1]-1;
                 stack.push(newO);
+                visited[newO[0]][newO[1]] = true;
             }
         }
     }

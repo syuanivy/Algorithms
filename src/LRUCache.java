@@ -24,7 +24,7 @@ public class LRUCache {
     Node tail; // MRU cache
     HashMap<Integer, Node> map; // key and the Node object
 
-    public LRUCache(int capacity) {
+    public LRUCache(int capacitypub) {
         this.capacity = capacity;
         this.size = 0;
         head = null;
